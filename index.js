@@ -50,6 +50,9 @@ exports.extract = function(text, options){
   _.each(options.ngrams, function(ngram){
     var keywordsForNgram;
     var tf = new Tf();
+    if (options.tokenizer) {
+      natural.NGrams.setTokenizer(new natural.RegexpTokenizer({pattern: options.tokenizer, gaps: false}));
+    }
     var tokenized = _.map(natural.NGrams.ngrams(text, ngram), function(ngram){
       if (options.stem){
         ngram = _.map(ngram, stem);
