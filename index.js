@@ -51,7 +51,7 @@ exports.extract = function(text, options){
     var keywordsForNgram;
     var tf = new Tf();
     if (options.tokenizer) {
-      natural.NGrams.setTokenizer(new natural.RegexpTokenizer({pattern: options.tokenizer, gaps: false}));
+      natural.NGrams.setTokenizer(new natural.RegexpTokenizer({pattern: options.tokenizer, gaps: options.gaps || false}));
     }
     var tokenized = _.map(natural.NGrams.ngrams(text, ngram), function(ngram){
       if (options.stem){
