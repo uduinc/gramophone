@@ -40,6 +40,8 @@ exports.extract = function(text, options){
   if (!options.cutoff) options.cutoff = 0.5;
   if (!options.min) options.min = 2; 
   if (!options.stopWords) options.stopWords = [];
+  if (!options.ignoreDefaultStopWords)
+    options.stopWords = options.stopWords.concat(stopWords);
   if (!options.startWords) options.startWords = [];
   if (options.html){
     text = stripTags(text);
@@ -218,12 +220,8 @@ function whitelisted(term, startWords){
   return startWords.indexOf(term) !== -1;
 }
 
-function blacklisted(term, extraStopWords){
-  if (term.match(/^\d+$/) || term.match(/^_/)){
-    return true;
-  }
-  return  _.indexOf(stopWords, term) !== -1 ||
-    _.indexOf(extraStopWords, term) !== -1;
+function blacklisted(term, allStopWords){
+  return _.indexOf(allStopWords, term) !== -1;
 }
 
 function usePhrase(phrase, options){
