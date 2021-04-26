@@ -225,9 +225,8 @@ function blacklisted(term, allStopWords){
 }
 
 function usePhrase(phrase, options){
-  return whitelisted(phrase, options.startWords) || 
-    !_.detect(phrase.split(' '), function(term){
+  return whitelisted(phrase, options.startWords) || !(blacklisted(phrase, options.stopWords) || 
+    _.detect(phrase.split(' '), function(term){
       return blacklisted(term, options.stopWords);
-    });
+    }));
 }
-
